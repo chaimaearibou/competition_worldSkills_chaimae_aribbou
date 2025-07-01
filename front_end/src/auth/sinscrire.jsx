@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ function RegisterPage() {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate(); // ✅ pour redirection
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,8 +25,13 @@ function RegisterPage() {
     setSuccess('');
     try {
       const response = await axios.post('http://localhost:8000/api/register', formData);
-      setSuccess('Inscription réussie !');
+      setSuccess('Inscription réussie ! Redirection en cours...');
       console.log(response.data);
+
+      // ✅ Redirection après 2 secondes
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (err) {
       setError("Erreur lors de l'inscription. Vérifiez les champs.");
     }
@@ -47,7 +54,7 @@ function RegisterPage() {
         style={{
           maxWidth: '500px',
           width: '100%',
-          backgroundColor: '#121212', // Fond noir un peu plus clair pour le formulaire
+          backgroundColor: '#121212',
           borderRadius: '15px',
           padding: '3rem',
           boxSizing: 'border-box',
@@ -61,9 +68,9 @@ function RegisterPage() {
           <div
             style={{
               marginBottom: '2rem',
-              padding: '1rem 1.25rem',
+              padding: '1rem',
               backgroundColor: '#b00020',
-              color: 'white',
+              color: '#fff',
               borderRadius: '8px',
               textAlign: 'center',
             }}
@@ -76,7 +83,7 @@ function RegisterPage() {
           <div
             style={{
               marginBottom: '2rem',
-              padding: '1rem 1.25rem',
+              padding: '1rem',
               backgroundColor: '#28a745',
               color: 'white',
               borderRadius: '8px',

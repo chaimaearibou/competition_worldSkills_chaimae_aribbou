@@ -6,6 +6,7 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // ✅ bien placé ici
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -14,8 +15,14 @@ function LoginPage() {
         email,
         password,
       });
+
       console.log('Connexion réussie:', response.data);
-      // redirect or save token here
+
+      // 🔐 Tu peux stocker le token ici si tu veux :
+      // localStorage.setItem('token', response.data.token);
+
+      // ✅ Redirection vers la page après connexion
+      navigate('/anecdotes');
     } catch (err) {
       console.error('Erreur de connexion', err);
       setError('Email ou mot de passe incorrect');
@@ -65,13 +72,7 @@ function LoginPage() {
 
         <form onSubmit={handleLogin}>
           <div style={{ marginBottom: '2.5rem' }}>
-            <label
-              style={{
-                display: 'block',
-                marginBottom: '0.75rem',
-                color: '#fff', // label en blanc
-              }}
-            >
+            <label style={{ display: 'block', marginBottom: '0.75rem', color: '#fff' }}>
               Adresse e-mail
             </label>
             <input
@@ -99,13 +100,7 @@ function LoginPage() {
           </div>
 
           <div style={{ marginBottom: '2.5rem' }}>
-            <label
-              style={{
-                display: 'block',
-                marginBottom: '0.75rem',
-                color: '#fff', // label en blanc
-              }}
-            >
+            <label style={{ display: 'block', marginBottom: '0.75rem', color: '#fff' }}>
               Mot de passe
             </label>
             <input
@@ -149,7 +144,7 @@ function LoginPage() {
               style={{
                 color: '#FFD700',
                 textDecoration: 'none',
-                fontSize: '0.85rem', // plus petit
+                fontSize: '0.85rem',
                 alignSelf: 'center',
               }}
             >
